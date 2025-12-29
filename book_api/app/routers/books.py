@@ -5,10 +5,12 @@ from app import crud
 
 router = APIRouter(prefix="/books", tags=["Books"])
 
+#Create a new book
 @router.post("/", response_model=Book)
 def create(book: BookCreate):
     return crud.create_book(book)
 
+#Get all books with optional filtering by author and title
 @router.get("/", response_model=List[Book])
 def list_books(
     author: Optional[str] = Query(None),
@@ -24,7 +26,7 @@ def list_books(
 
     return books
 
-
+#Update a book by ID
 @router.put("/{book_id}", response_model=Book)
 def update(book_id: int, updated_book: BookCreate):
     book = crud.update_book(book_id, updated_book)
@@ -32,6 +34,7 @@ def update(book_id: int, updated_book: BookCreate):
         raise HTTPException(status_code=404, detail="Book not found")
     return book
 
+#Get a book by ID
 @router.get("/{book_id}", response_model=Book)
 def get(book_id: int):
     book = crud.get_book_by_id(book_id)
@@ -39,6 +42,7 @@ def get(book_id: int):
         raise HTTPException(status_code=404, detail="Book not found")
     return book
 
+#Delete a book by ID
 @router.delete("/{book_id}")
 def delete(book_id: int):
     if not crud.delete_book(book_id):
