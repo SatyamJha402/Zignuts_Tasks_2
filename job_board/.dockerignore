@@ -1,7 +1,7 @@
-.env
-.env.*
 __pycache__/
 *.pyc
-*.pyos
+*.pyo
 *.pyd
+.env
+job_board.db
 app.db
