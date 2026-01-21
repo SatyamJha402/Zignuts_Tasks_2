@@ -12,25 +12,25 @@ router = APIRouter(prefix="/books", tags=["Books"])
 def list_books(session: Session = Depends(get_session)):
     return session.exec(select(Book)).all()
 
-#Get a specific book by ID
+#Create a new book
 @router.post("/", response_model=Book)
 def create_book(
     book: Book,
     session: Session = Depends(get_session),
-    user=Depends(get_current_user)   # 🔒 protected
+    user=Depends(get_current_user)
 ):
     session.add(book)
     session.commit()
     session.refresh(book)
     return book
 
-#Get a specific book by ID
+#Update an existing book
 @router.put("/{book_id}", response_model=Book)
 def update_book(
     book_id: int,
     updated: Book,
     session: Session = Depends(get_session),
-    user=Depends(get_current_user)   # 🔒 protected
+    user=Depends(get_current_user)
 ):
     book = session.get(Book, book_id)
     # Check if the book exists
@@ -51,7 +51,7 @@ def update_book(
 def delete_book(
     book_id: int,
     session: Session = Depends(get_session),
-    user=Depends(get_current_user)   # 🔒 protected
+    user=Depends(get_current_user)
 ):
     book = session.get(Book, book_id)
     if not book:
