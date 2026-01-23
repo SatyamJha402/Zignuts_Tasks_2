@@ -210,25 +210,3 @@ If you want, I can:
 * Add **screenshots section**
 * Add **API example requests**
 * Align wording for **resume / portfolio**
-
----  
-
-recipe_api/  
-│  
-├── app/  
-│   ├── main.py  
-│   │  
-│   ├── database.py  
-│   │  
-│   ├── auth.py  
-│   │  
-│   ├── models.py  
-│   │  
-│   ├── routers/  
-│   │   ├──__init__.py  
-│   │   ├── auth.py  
-│   │   └── recipes.py  
-│   │  
-│   └── config.py  
-│  
-└── requirements.txt   
