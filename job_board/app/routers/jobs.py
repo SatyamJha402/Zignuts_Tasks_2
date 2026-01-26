@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlmodel import Session, select
 from app.database import get_session
 from app.models import Job
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 
 # Create a job, recruiter-only
 @router.post("/", response_model=JobRead)
-def create_job(job: JobCreate, current_user=Depends(require_recruiter), session: Session = Depends(get_session)):
+def create_job(job: JobCreate = Body(...), current_user=Depends(require_recruiter), session: Session = Depends(get_session)):
 
     db_job = Job(
         title=job.title,
@@ -40,10 +40,11 @@ def create_job(job: JobCreate, current_user=Depends(require_recruiter), session:
 
     session.commit()
 
-    return JobRead(
-        **db_job.dict(),
-        tags=job.tags
-    )
+    return db_job
+    # return JobRead(
+    #     **db_job.dict(),
+    #     tags=job.tags
+    # )
 
 
 # List jobs, public

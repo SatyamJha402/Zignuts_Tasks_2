@@ -52,7 +52,10 @@ class JobRead(BaseModel):
     location: str
     company_id: int
     created_by: int
-    tags: List[str] = []
+    # tags: List[str] = []
+    
+    class Config:
+        form_attribute = True
 
 #Update job schema
 class JobUpdate(BaseModel):
