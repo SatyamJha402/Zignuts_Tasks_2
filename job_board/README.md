@@ -102,11 +102,6 @@ job_board/
 │ │
 │ ├── schemas.py
 │ │
-│ ├── schemas/
-│ │ ├── user.py
-│ │ ├── company.py
-│ │ └── job.py
-│ │
 │ ├── core/
 │ │ ├── security.py
 │ │ └── dependency.py
