@@ -6,7 +6,7 @@ from app.database import get_session
 from app.models import User
 from app.auth import hash_password, verify_password, create_access_token
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(tags=["Auth"])
 
 #User registration
 @router.post("/register")

@@ -4,8 +4,9 @@ from typing import List
 from app.database import get_session
 from app.models import Book
 from app.auth import get_current_user
+from app.schemas import BookCreate, BookRead
 
-router = APIRouter(prefix="/books", tags=["Books"])
+router = APIRouter(tags=["Books"])
 
 #List all books
 @router.get("/", response_model=List[Book])
@@ -13,29 +14,38 @@ def list_books(session: Session = Depends(get_session)):
     return session.exec(select(Book)).all()
 
 #Create a new book
-@router.post("/", response_model=Book)
+@router.post("/", response_model=BookRead)
 def create_book(
-    book: Book,
+    book: BookCreate,
     session: Session = Depends(get_session),
     user=Depends(get_current_user)
 ):
-    session.add(book)
+    db_book = Book(
+        title=book.title,
+        author=book.author,
+        year=book.year,
+        owner_id=user.id
+    )
+
+    session.add(db_book)
     session.commit()
-    session.refresh(book)
-    return book
+    session.refresh(db_book)
+    return db_book
 
 #Update an existing book
-@router.put("/{book_id}", response_model=Book)
+@router.put("/{book_id}", response_model=BookRead)
 def update_book(
     book_id: int,
-    updated: Book,
+    updated: BookCreate,
     session: Session = Depends(get_session),
     user=Depends(get_current_user)
 ):
     book = session.get(Book, book_id)
-    # Check if the book exists
     if not book:
         raise HTTPException(status_code=404)
+
+    if book.owner_id != user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
 
     book.title = updated.title
     book.author = updated.author
@@ -56,6 +66,9 @@ def delete_book(
     book = session.get(Book, book_id)
     if not book:
         raise HTTPException(status_code=404)
+
+    if book.owner_id != user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
 
     session.delete(book)
     session.commit()
