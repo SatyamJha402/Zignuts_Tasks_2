@@ -40,29 +40,21 @@ book_api/
 │   ├── config.py
 │   ├── database.py
 │   │
-│   ├── models/
-│   │   ├── user.py
-│   │   └── book.py
+│   ├── models.py
 │   │
-│   ├── schemas/
-│   │   ├── user.py
-│   │   └── book.py
+│   ├── schemas.py
 │   │
 │   ├── routers/
 │   │   ├── users.py
 │   │   └── books.py
 │   │
-│   ├── auth/
-│   │   ├── jwt.py
-│   │   └── deps.py
+│   ├── auth.py
 │   │
-│   └── middleware/
-│       └── logging.py
-│
-├── tests/
-│   ├── test_auth.py
-│   ├── test_books.py
-│   └── conftest.py
+│   └── tests/
+│        ├── __init__.py
+│        ├── utils.py
+│        ├── test_books.py
+│        └── conftest.py
 │
 ├── .env
 ├── requirements.txt
